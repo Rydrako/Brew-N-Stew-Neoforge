@@ -16,6 +16,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import rydrako.brewnstew.block.ModBlocks;
+import rydrako.brewnstew.block.entity.ModBlockEntities;
 import rydrako.brewnstew.creativemodetab.ModCreativeModeTabs;
 import rydrako.brewnstew.item.ModItems;
 
@@ -33,6 +34,7 @@ public class BrewNStew {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.

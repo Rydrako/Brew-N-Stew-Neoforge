@@ -1,5 +1,6 @@
 package rydrako.brewnstew.block;
 
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -17,34 +18,44 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.FlintAndSteelItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
 
 import javax.annotation.Nullable;
 
-public class CampfireCookingPotBlock extends Block {
+public class CampfireCookingPotBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     private static final VoxelShape SHAPE_INSIDE = Block.column((double)12.0F, (double)8.0F, (double)16.0F);
     protected static final VoxelShape SHAPE = Util.make(() ->
             Shapes.join(Shapes.block(), Shapes.or(Block.column((double)16.0F, (double)14.0F, (double)16.0F), SHAPE_INSIDE), BooleanOp.ONLY_FIRST));
+
+    public static final MapCodec<CampfireCookingPotBlock> CODEC = simpleCodec(CampfireCookingPotBlock::new);
 
     public CampfireCookingPotBlock(Properties properties) {
         super(properties);
@@ -52,6 +63,11 @@ public class CampfireCookingPotBlock extends Block {
                 .setValue(FACING, Direction.WEST)
                 .setValue(LIT, true)
         );
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -124,8 +140,31 @@ public class CampfireCookingPotBlock extends Block {
             return InteractionResult.CONSUME;
         }
 
+        if(level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity)
+        {
+            boolean isEmpty = cookingPotBlockEntity.inventory.getResource(0).isEmpty();
 
-        return InteractionResult.TRY_WITH_EMPTY_HAND;
+            //insert
+            if(isEmpty && !itemStack.isEmpty())
+            {
+                cookingPotBlockEntity.inventory.set(0, ItemResource.of(itemStack), 1);
+                itemStack.shrink(1);
+                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+            }
+            else if(!isEmpty) {
+                ItemStack stack = cookingPotBlockEntity.inventory.getResource(0).toStack();
+                cookingPotBlockEntity.clearContents();
+
+                if(!player.getInventory().add(stack))
+                {
+                    player.drop(stack, false);
+                }
+
+                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 1f);
+            }
+        }
+
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -211,4 +250,14 @@ public class CampfireCookingPotBlock extends Block {
     private boolean isValidItem (ItemStack item) {
         return true;
     }
+
+    @Override
+    public @org.jspecify.annotations.Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new CookingPotBlockEntity(blockPos, blockState);
+    }
+
+//    @Override
+//    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid) {
+//        return super.onDestroyedByPlayer(state, level, pos, player, toolStack, willHarvest, fluid);
+//    }
 }
