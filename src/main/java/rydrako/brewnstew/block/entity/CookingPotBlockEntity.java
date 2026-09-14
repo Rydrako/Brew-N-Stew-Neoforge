@@ -11,8 +11,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
 
 public class CookingPotBlockEntity extends BlockEntity {
@@ -21,6 +24,7 @@ public class CookingPotBlockEntity extends BlockEntity {
         protected void onContentsChanged(int index, ItemStack previousContents) {
             super.onContentsChanged(index, previousContents);
             CookingPotBlockEntity.this.setChanged();
+
             if(!level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }

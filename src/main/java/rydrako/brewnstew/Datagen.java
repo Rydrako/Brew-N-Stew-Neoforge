@@ -7,9 +7,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import rydrako.brewnstew.datagen.ModBlockLootTableProvider;
-import rydrako.brewnstew.datagen.ModBlockTagsProvider;
-import rydrako.brewnstew.datagen.ModModelProvider;
+import rydrako.brewnstew.datagen.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,7 +23,11 @@ public class Datagen {
 
         generator.addProvider(true, new ModModelProvider(packOutput));
         generator.addProvider(true, new ModBlockTagsProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new ModItemTagsProvider(packOutput, lookupProvider));
         generator.addProvider(true, new LootTableProvider(packOutput, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
+
+        generator.addProvider(true, new ModRecipeProvider.Runner(packOutput, lookupProvider));
+
     }
 }

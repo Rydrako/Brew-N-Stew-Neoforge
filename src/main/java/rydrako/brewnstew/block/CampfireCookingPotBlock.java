@@ -11,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.InsideBlockEffectType;
@@ -41,10 +42,12 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
+import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
 
@@ -145,8 +148,9 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
             boolean isEmpty = cookingPotBlockEntity.inventory.getResource(0).isEmpty();
 
             //insert
-            if(isEmpty && !itemStack.isEmpty())
+            if(isEmpty && !itemStack.isEmpty() && itemStack.is(ModTags.Items.COOKABLE_FOOD))
             {
+//                player.addEffect(new Mob)
                 cookingPotBlockEntity.inventory.set(0, ItemResource.of(itemStack), 1);
                 itemStack.shrink(1);
                 level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
