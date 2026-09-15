@@ -41,7 +41,6 @@ public class CookingPotItem extends Item {
                         .setValue(CampfireCookingPotBlock.FACING, clickedState.getValue(CampfireBlock.FACING))
                         .setValue(CampfireCookingPotBlock.LIT, clickedState.getValue(CampfireBlock.LIT));
 
-                clickedState.setValue(CampfireBlock.FACING, Direction.SOUTH);
                 level.setBlockAndUpdate(posClicked, newState);
                 level.playSound(null, posClicked, SoundEvents.ANVIL_PLACE, SoundSource.BLOCKS, 1.0f, 1.0f);
 

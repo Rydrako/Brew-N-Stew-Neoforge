@@ -17,6 +17,7 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jspecify.annotations.Nullable;
+import rydrako.brewnstew.tags.ModTags;
 
 public class CookingPotBlockEntity extends BlockEntity {
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(1) {
@@ -33,6 +34,11 @@ public class CookingPotBlockEntity extends BlockEntity {
         @Override
         protected int getCapacity(int index, ItemResource resource) {
             return 1;
+        }
+
+        @Override
+        public boolean isValid(int index, ItemResource resource) {
+            return resource.is(ModTags.Items.COOKABLE_FOOD);
         }
     };
 

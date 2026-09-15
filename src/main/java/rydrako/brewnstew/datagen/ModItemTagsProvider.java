@@ -1,7 +1,9 @@
 package rydrako.brewnstew.datagen;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.references.BlockItemIds;
 import net.minecraft.references.ItemIds;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
@@ -25,11 +27,32 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.FOODS_BREAD)
                 .addTag(Tags.Items.FOODS_FRUIT)
                 .addTag(Tags.Items.FOODS_VEGETABLE)
+                .addTag(Tags.Items.FOODS_GOLDEN)
         ;
 
-        tag(ModTags.Items.ATTACK_BUFF_FOOD)
-                .add(ItemIds.BEEF)
-                .add(ItemIds.PUFFERFISH)
+        tag(ModTags.Items.STRENGTH_FOOD)
+                .add(ItemIds.COD)
         ;
+
+        tag(ModTags.Items.SPEED_FOOD)
+                .add(ItemIds.SUGAR)
+        ;
+
+        tag(ModTags.Items.NIGHT_VISION_FOOD)
+                .add(BuiltInRegistries.ITEM.getResourceKey(Items.CARROT).get())
+                .add(ItemIds.GOLDEN_CARROT)
+                ;
+
+        tag(ModTags.Items.LEVITATION_FOOD)
+                .add(ItemIds.CHORUS_FRUIT)
+                ;
+
+        tag(ModTags.Items.WATER_BREATHING_FOOD)
+                .add(ItemIds.PUFFERFISH)
+                ;
+
+        tag(ModTags.Items.JUMP_BOOST_FOOD)
+                .add(ItemIds.RABBIT)
+                ;
     }
 }

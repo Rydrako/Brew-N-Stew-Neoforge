@@ -5,55 +5,54 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
-import net.minecraft.world.entity.InsideBlockEffectType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.FlintAndSteelItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
+import rydrako.brewnstew.api.FoodStats;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
 import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
+import java.util.*;
 
 public class CampfireCookingPotBlock extends BaseEntityBlock {
+    public static final int MAX_FOOD = 9;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
+
+    //TODO: FoodStats implementation in BlockEntity
+    public static final IntegerProperty FOOD = IntegerProperty.create("food", 0, MAX_FOOD);
+    public static final IntegerProperty STRENGTH = IntegerProperty.create("strength", 0, MAX_FOOD);
+    public static final IntegerProperty NIGHT_VISION = IntegerProperty.create("night_vision", 0, MAX_FOOD);
+
     private static final VoxelShape SHAPE_INSIDE = Block.column((double)12.0F, (double)8.0F, (double)16.0F);
     protected static final VoxelShape SHAPE = Util.make(() ->
             Shapes.join(Shapes.block(), Shapes.or(Block.column((double)16.0F, (double)14.0F, (double)16.0F), SHAPE_INSIDE), BooleanOp.ONLY_FIRST));
@@ -65,6 +64,9 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
         this.registerDefaultState(stateDefinition.any()
                 .setValue(FACING, Direction.WEST)
                 .setValue(LIT, true)
+                .setValue(FOOD, 0)
+                .setValue(STRENGTH, 0)
+                .setValue(NIGHT_VISION, 0)
         );
     }
 
@@ -77,6 +79,9 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
         builder.add(LIT);
+        builder.add(FOOD);
+        builder.add(STRENGTH);
+        builder.add(NIGHT_VISION);
     }
 
     @Override
@@ -103,25 +108,9 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 
     @Override
     protected InteractionResult useItemOn(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-//        BlockEntity var9 = level.getBlockEntity(pos);
-//        if (var9 instanceof CampfireBlockEntity campfire) {
-//            ItemStack itemInHand = player.getItemInHand(hand);
-//            if (itemInHand.getItem().getClass().isAssignableFrom(ShovelItem.class)) {
-//                if (level instanceof ServerLevel) {
-//                    ServerLevel serverLevel = (ServerLevel)level;
-//                    if (campfire.placeFood(serverLevel, player, itemInHand)) {
-//                        player.awardStat(Stats.INTERACT_WITH_CAMPFIRE);
-//                        return InteractionResult.SUCCESS_SERVER;
-//                    }
-//                }
-//
-//                return InteractionResult.CONSUME;
-//            }
-//        }
 
         ItemStack itemInHand = player.getItemInHand(hand);
         if (itemInHand.getItem() instanceof ShovelItem) {
-//            player.sendSystemMessage(Component.literal("test"));
             if(state.getValue(LIT))
             {
                 dowse(player, level, pos, state);
@@ -145,30 +134,55 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 
         if(level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity)
         {
-            boolean isEmpty = cookingPotBlockEntity.inventory.getResource(0).isEmpty();
-
-            //insert
-            if(isEmpty && !itemStack.isEmpty() && itemStack.is(ModTags.Items.COOKABLE_FOOD))
-            {
-//                player.addEffect(new Mob)
-                cookingPotBlockEntity.inventory.set(0, ItemResource.of(itemStack), 1);
-                itemStack.shrink(1);
-                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
-            }
-            else if(!isEmpty) {
-                ItemStack stack = cookingPotBlockEntity.inventory.getResource(0).toStack();
-                cookingPotBlockEntity.clearContents();
-
-                if(!player.getInventory().add(stack))
-                {
-                    player.drop(stack, false);
-                }
-
-                level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 1f);
-            }
+            insertItem(itemStack, state, level, pos, player, cookingPotBlockEntity);
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    private static void insertItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, CookingPotBlockEntity cookingPotBlockEntity) {
+        var inv = cookingPotBlockEntity.inventory;
+
+        if(inv.isValid(0, ItemResource.of(itemStack)) && state.getValue(FOOD) < MAX_FOOD)
+        {
+            itemStack.shrink(1);
+            level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+            if(!level.isClientSide()) {
+//                state = updateFoodStats(state, itemStack, player);
+//                BlockState newState = ModBlocks.CAMPFIRE_COOKING_POT.get().defaultBlockState()
+//                        .setValue(FACING, state.getValue(FACING))
+//                        .setValue(LIT, state.getValue(LIT))
+//                        .setValue(FOOD, state.getValue(FOOD) + 1);
+
+                BlockState newState = state.setValue(FOOD, state.getValue(FOOD) + 1);
+                newState = updateFoodStats(newState, itemStack, player);
+
+                level.setBlockAndUpdate(pos, newState);
+            }
+        }
+    }
+
+    static Map<TagKey<Item>, IntegerProperty> tagsToStates = Map.of(
+            ModTags.Items.STRENGTH_FOOD, STRENGTH,
+            ModTags.Items.NIGHT_VISION_FOOD, NIGHT_VISION
+//            ModTags.Items.LEVITATION_FOOD, LEVITATION,
+//            ModTags.Items.WATER_BREATHING_FOOD, WATER_BREATHING,
+//            ModTags.Items.JUMP_BOOST_FOOD, JUMP_BOOST
+    );
+
+    private static BlockState updateFoodStats(BlockState state, ItemStack itemStack, Player player) {
+
+        for(TagKey<Item> tag : itemStack.tags().toList())
+        {
+            var property = tagsToStates.get(tag);
+            if(property != null)
+            {
+//                player.sendSystemMessage(Component.literal("Found Stat " + tag));
+                state = state.setValue(property, state.getValue(property) + 1);
+            }
+
+        }
+        return state;
     }
 
     @Override
