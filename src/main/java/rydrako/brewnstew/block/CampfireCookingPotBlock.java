@@ -1,6 +1,7 @@
 package rydrako.brewnstew.block;
 
 import com.mojang.serialization.MapCodec;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,7 +16,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
+import net.minecraft.world.entity.InsideBlockEffectType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -132,34 +135,39 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if(level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity)
+        if(level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity && !level.isClientSide())
         {
-            insertItem(itemStack, state, level, pos, player, cookingPotBlockEntity);
+            if(itemStack.isEmpty() && player.isCrouching())
+            {
+                player.sendSystemMessage(Component.literal(cookingPotBlockEntity.printFoodStats()));
+            }
+            else
+            {
+                insertItem(itemStack, state, level, pos, cookingPotBlockEntity);
+            }
         }
 
         return InteractionResult.SUCCESS;
     }
 
-    private static void insertItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, CookingPotBlockEntity cookingPotBlockEntity) {
+    private static boolean insertItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, CookingPotBlockEntity cookingPotBlockEntity) {
         var inv = cookingPotBlockEntity.inventory;
 
-        if(inv.isValid(0, ItemResource.of(itemStack)) && state.getValue(FOOD) < MAX_FOOD)
+
+        if(!cookingPotBlockEntity.isFull() && inv.isValid(0, ItemResource.of(itemStack)) && state.getValue(FOOD) < MAX_FOOD)
         {
+            inv.set(cookingPotBlockEntity.getEmptySlot(), ItemResource.of(itemStack), 1);
             itemStack.shrink(1);
-            level.playSound(player, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+
             if(!level.isClientSide()) {
-//                state = updateFoodStats(state, itemStack, player);
-//                BlockState newState = ModBlocks.CAMPFIRE_COOKING_POT.get().defaultBlockState()
-//                        .setValue(FACING, state.getValue(FACING))
-//                        .setValue(LIT, state.getValue(LIT))
-//                        .setValue(FOOD, state.getValue(FOOD) + 1);
-
                 BlockState newState = state.setValue(FOOD, state.getValue(FOOD) + 1);
-                newState = updateFoodStats(newState, itemStack, player);
 
+                level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
                 level.setBlockAndUpdate(pos, newState);
             }
+            return true;
         }
+        return false;
     }
 
     static Map<TagKey<Item>, IntegerProperty> tagsToStates = Map.of(
@@ -193,6 +201,11 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 //            effectApplier.apply(InsideBlockEffectType.LAVA_IGNITE);
 //            effectApplier.runAfter(InsideBlockEffectType.LAVA_IGNITE, Entity::lavaHurt);
 //        }
+        if(state.getValue(LIT) && entity instanceof ItemEntity itemEntity)
+        {
+            if(insertItem(itemEntity.getItem(), state, level, pos, (CookingPotBlockEntity) level.getBlockEntity(pos)))
+                effectApplier.runAfter(InsideBlockEffectType.LAVA_IGNITE, Entity::lavaHurt);
+        }
     }
 
     @Override
@@ -263,10 +276,6 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     @Override
     protected VoxelShape getInteractionShape(final BlockState state, final BlockGetter level, final BlockPos pos) {
         return SHAPE_INSIDE;
-    }
-
-    private boolean isValidItem (ItemStack item) {
-        return true;
     }
 
     @Override

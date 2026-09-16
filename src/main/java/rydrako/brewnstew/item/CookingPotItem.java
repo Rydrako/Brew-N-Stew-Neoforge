@@ -57,4 +57,10 @@ public class CookingPotItem extends Item {
         builder.accept(Component.translatable("tooltip.brewnstew.cooking_pot"));
         super.appendHoverText(itemStack, context, display, builder, tooltipFlag);
     }
+
+//    @Override
+//    public Component getName(ItemStack itemStack) {
+//
+//        return Component.literal("Mighty " + Component.translatable("item.brewnstew.cooking_pot").getString());
+//    }
 }

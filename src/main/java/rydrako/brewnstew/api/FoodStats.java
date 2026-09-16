@@ -14,6 +14,10 @@ import java.util.Map;
 
 public class FoodStats {
 
+    public int strength = 0;
+    public int nightVision = 0;
+    public int levitation = 0;
+
 //    static Map<TagKey<Item>, IntegerProperty> tagsToStates = Map.of(
 //            ModTags.Items.STRENGTH_FOOD, STRENGTH,
 //            ModTags.Items.NIGHT_VISION_FOOD, NIGHT_VISION
