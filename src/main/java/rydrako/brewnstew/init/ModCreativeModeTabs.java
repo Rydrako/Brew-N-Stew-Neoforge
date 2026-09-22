@@ -1,4 +1,4 @@
-package rydrako.brewnstew.creativemodetab;
+package rydrako.brewnstew.init;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -9,8 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.block.ModBlocks;
-import rydrako.brewnstew.item.ModItems;
 
 import java.util.Map;
 import java.util.Objects;

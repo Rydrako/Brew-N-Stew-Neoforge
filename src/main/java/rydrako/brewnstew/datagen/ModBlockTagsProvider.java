@@ -3,10 +3,9 @@ package rydrako.brewnstew.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
-import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.block.ModBlocks;
+import rydrako.brewnstew.init.ModBlocks;
 
 import java.util.concurrent.CompletableFuture;
 

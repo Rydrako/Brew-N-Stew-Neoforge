@@ -8,8 +8,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.block.ModBlocks;
-import rydrako.brewnstew.item.ModItems;
+import rydrako.brewnstew.init.ModBlocks;
+import rydrako.brewnstew.init.ModItems;
 import java.util.stream.Stream;
 
 public class ModModelProvider extends ModelProvider {

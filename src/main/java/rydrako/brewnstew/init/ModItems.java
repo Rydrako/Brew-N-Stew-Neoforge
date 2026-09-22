@@ -1,4 +1,4 @@
-package rydrako.brewnstew.item;
+package rydrako.brewnstew.init;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -7,7 +7,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.food.ModFoods;
+import rydrako.brewnstew.item.CookedFoodItem;
+import rydrako.brewnstew.item.CookingPotItem;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(BrewNStew.MOD_ID);

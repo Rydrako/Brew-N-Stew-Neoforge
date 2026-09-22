@@ -1,6 +1,5 @@
 package rydrako.brewnstew;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import org.slf4j.Logger;
 
@@ -15,12 +14,12 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import rydrako.brewnstew.block.ModBlocks;
-import rydrako.brewnstew.block.entity.ModBlockEntities;
-import rydrako.brewnstew.creativemodetab.ModCreativeModeTabs;
-import rydrako.brewnstew.datacomponent.ModDataComponents;
+import rydrako.brewnstew.init.ModBlocks;
+import rydrako.brewnstew.init.ModBlockEntities;
+import rydrako.brewnstew.init.ModCreativeModeTabs;
+import rydrako.brewnstew.init.ModDataComponents;
 import rydrako.brewnstew.food.ModConsumeEffects;
-import rydrako.brewnstew.item.ModItems;
+import rydrako.brewnstew.init.ModItems;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(BrewNStew.MOD_ID)

@@ -1,11 +1,11 @@
-package rydrako.brewnstew.block.entity;
+package rydrako.brewnstew.init;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.block.ModBlocks;
+import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
 
 import java.util.function.Supplier;
 

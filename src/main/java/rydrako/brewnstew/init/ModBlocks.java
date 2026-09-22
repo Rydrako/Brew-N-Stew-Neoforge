@@ -1,4 +1,4 @@
-package rydrako.brewnstew.block;
+package rydrako.brewnstew.init;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -14,7 +14,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.item.ModItems;
+import rydrako.brewnstew.block.CampfireCookingPotBlock;
 
 import java.util.function.Function;
 import java.util.function.ToIntFunction;

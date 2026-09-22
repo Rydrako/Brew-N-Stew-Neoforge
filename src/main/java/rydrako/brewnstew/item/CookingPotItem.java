@@ -1,7 +1,6 @@
 package rydrako.brewnstew.item;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -13,11 +12,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import rydrako.brewnstew.block.CampfireCookingPotBlock;
-import rydrako.brewnstew.block.ModBlocks;
+import rydrako.brewnstew.init.ModBlocks;
 
 import java.util.function.Consumer;
 

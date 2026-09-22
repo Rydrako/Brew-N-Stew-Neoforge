@@ -1,4 +1,4 @@
-package rydrako.brewnstew.api;
+package rydrako.brewnstew.datacomponent;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

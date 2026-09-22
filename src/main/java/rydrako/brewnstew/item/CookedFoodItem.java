@@ -1,15 +1,12 @@
 package rydrako.brewnstew.item;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.api.StatPoint;
-import rydrako.brewnstew.api.FoodStats;
-import rydrako.brewnstew.datacomponent.ModDataComponents;
+import rydrako.brewnstew.datacomponent.StatPoint;
 
 import java.util.function.Consumer;
 

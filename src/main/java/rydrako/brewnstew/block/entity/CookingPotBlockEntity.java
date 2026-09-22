@@ -3,38 +3,26 @@ package rydrako.brewnstew.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import org.jspecify.annotations.Nullable;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.api.FoodStats;
-import rydrako.brewnstew.api.StatPoint;
-import rydrako.brewnstew.datacomponent.ModDataComponents;
-import rydrako.brewnstew.item.ModItems;
+import rydrako.brewnstew.datacomponent.StatPoint;
+import rydrako.brewnstew.init.ModBlockEntities;
+import rydrako.brewnstew.init.ModItems;
 import rydrako.brewnstew.tags.ModTags;
-
-import java.util.*;
 
 public class CookingPotBlockEntity extends BlockEntity {
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(9) {

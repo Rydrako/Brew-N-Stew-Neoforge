@@ -8,7 +8,6 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
@@ -38,14 +37,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import rydrako.brewnstew.api.StatPoint;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
-import rydrako.brewnstew.datacomponent.ModDataComponents;
-import rydrako.brewnstew.item.ModItems;
-import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
-import java.util.*;
 
 public class CampfireCookingPotBlock extends BaseEntityBlock {
     public static final int MAX_FOOD = 9;

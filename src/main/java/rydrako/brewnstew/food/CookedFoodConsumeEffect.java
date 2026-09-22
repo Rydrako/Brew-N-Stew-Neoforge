@@ -1,24 +1,19 @@
 package rydrako.brewnstew.food;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.level.Level;
 import rydrako.brewnstew.BrewNStew;
-import rydrako.brewnstew.api.CookedConsumableEffects;
-import rydrako.brewnstew.api.FoodStats;
-import rydrako.brewnstew.api.StatPoint;
-import rydrako.brewnstew.datacomponent.ModDataComponents;
+import rydrako.brewnstew.datacomponent.StatPoint;
 
 public class CookedFoodConsumeEffect implements ConsumeEffect {
     public static final MapCodec<CookedFoodConsumeEffect> CODEC = MapCodec.unit(CookedFoodConsumeEffect::new);

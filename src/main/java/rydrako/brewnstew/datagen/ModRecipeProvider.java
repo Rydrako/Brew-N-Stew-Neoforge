@@ -6,8 +6,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.item.Items;
-import rydrako.brewnstew.block.ModBlocks;
-import rydrako.brewnstew.item.ModItems;
+import rydrako.brewnstew.init.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
