@@ -6,6 +6,22 @@
     "#c:foods/bread",
     "#c:foods/fruit",
     "#c:foods/vegetable",
-    "#c:foods/golden"
+    "#c:foods/golden",
+    "#c:eggs",
+    "#c:drinks/honey",
+    "#c:seeds",
+    "minecraft:milk_bucket",
+    "minecraft:cookie",
+    "minecraft:sugar",
+    "minecraft:wheat",
+    "minecraft:honeycomb",
+    "minecraft:rotten_flesh",
+    "minecraft:bone",
+    "minecraft:spider_eye",
+    "minecraft:fermented_spider_eye",
+    "minecraft:ghast_tear",
+    "minecraft:ink_sac",
+    "minecraft:glow_ink_sac",
+    "minecraft:blaze_powder"
   ]
 }

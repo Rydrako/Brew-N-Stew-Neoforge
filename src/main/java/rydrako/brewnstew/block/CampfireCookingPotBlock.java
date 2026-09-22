@@ -1,7 +1,6 @@
 package rydrako.brewnstew.block;
 
 import com.mojang.serialization.MapCodec;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -39,8 +38,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.transfer.item.ItemResource;
-import rydrako.brewnstew.api.FoodStats;
+import rydrako.brewnstew.api.StatPoint;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
+import rydrako.brewnstew.datacomponent.ModDataComponents;
+import rydrako.brewnstew.item.ModItems;
 import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
@@ -135,11 +136,33 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
-        if(level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity && !level.isClientSide())
+        if(itemInHand.is(Items.GUNPOWDER))
+        {
+            itemStack.shrink(1);
+            level.explode(null, pos.getX(), pos.getY(), pos.getZ(), 4, Level.ExplosionInteraction.BLOCK);
+        }
+
+        if(!level.isClientSide() && level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity)
         {
             if(itemStack.isEmpty() && player.isCrouching())
             {
-                player.sendSystemMessage(Component.literal(cookingPotBlockEntity.printFoodStats()));
+                if(cookingPotBlockEntity.hasContents())
+                {
+                    BlockState newState = state.setValue(FOOD, 0);
+                    level.setBlockAndUpdate(pos, newState);
+
+                    ItemStack cookedItem = cookingPotBlockEntity.createCookedFoodItem(player);
+                    cookingPotBlockEntity.clearContents();
+                    if(!player.getInventory().add(cookedItem)) {
+                        player.drop(cookedItem, false);
+                    }
+                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+                    level.playSound(null, pos, SoundEvents.GENERIC_BURN, SoundSource.BLOCKS, 1f, 2f);
+                }
+                else
+                {
+                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.empty"));
+                }
             }
             else
             {
@@ -153,8 +176,7 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     private static boolean insertItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, CookingPotBlockEntity cookingPotBlockEntity) {
         var inv = cookingPotBlockEntity.inventory;
 
-
-        if(!cookingPotBlockEntity.isFull() && inv.isValid(0, ItemResource.of(itemStack)) && state.getValue(FOOD) < MAX_FOOD)
+        if(!cookingPotBlockEntity.isFull() && inv.isValid(0, ItemResource.of(itemStack)))
         {
             inv.set(cookingPotBlockEntity.getEmptySlot(), ItemResource.of(itemStack), 1);
             itemStack.shrink(1);
@@ -170,37 +192,8 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
         return false;
     }
 
-    static Map<TagKey<Item>, IntegerProperty> tagsToStates = Map.of(
-            ModTags.Items.STRENGTH_FOOD, STRENGTH,
-            ModTags.Items.NIGHT_VISION_FOOD, NIGHT_VISION
-//            ModTags.Items.LEVITATION_FOOD, LEVITATION,
-//            ModTags.Items.WATER_BREATHING_FOOD, WATER_BREATHING,
-//            ModTags.Items.JUMP_BOOST_FOOD, JUMP_BOOST
-    );
-
-    private static BlockState updateFoodStats(BlockState state, ItemStack itemStack, Player player) {
-
-        for(TagKey<Item> tag : itemStack.tags().toList())
-        {
-            var property = tagsToStates.get(tag);
-            if(property != null)
-            {
-//                player.sendSystemMessage(Component.literal("Found Stat " + tag));
-                state = state.setValue(property, state.getValue(property) + 1);
-            }
-
-        }
-        return state;
-    }
-
     @Override
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
-//        if(state.getValue(LIT))
-//        {
-//            effectApplier.apply(InsideBlockEffectType.CLEAR_FREEZE);
-//            effectApplier.apply(InsideBlockEffectType.LAVA_IGNITE);
-//            effectApplier.runAfter(InsideBlockEffectType.LAVA_IGNITE, Entity::lavaHurt);
-//        }
         if(state.getValue(LIT) && entity instanceof ItemEntity itemEntity)
         {
             if(insertItem(itemEntity.getItem(), state, level, pos, (CookingPotBlockEntity) level.getBlockEntity(pos)))

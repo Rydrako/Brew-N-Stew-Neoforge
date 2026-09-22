@@ -3,8 +3,13 @@
 
   "item.brewnstew.cooking_pot": "Cooking Pot",
 
+  "item.brewnstew.beef_skewer": "Beef Skewer",
+  "item.brewnstew.chicken_skewer": "Chicken Skewer",
+
   "block.brewnstew.cooking_pot": "Cooking Pot",
   "block.brewnstew.campfire_cooking_pot": "Campfire Cooking Pot",
   "itemGroup.brewnstew.food": "Brew N' Stew Food",
-  "tooltip.brewnstew.cooking_pot": "§8Place on a campfire to get cooking!"
+  "tooltip.brewnstew.cooking_pot": "§8Place on a campfire to get cooking!",
+
+  "block.brewnstew.campfire_cooking_pot.empty": "The Cooking Pot is empty."
 }

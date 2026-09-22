@@ -3,6 +3,7 @@ package rydrako.brewnstew.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.references.BlockIds;
 import net.minecraft.references.BlockItemIds;
 import net.minecraft.references.ItemIds;
 import net.minecraft.world.item.Items;
@@ -28,6 +29,22 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.FOODS_FRUIT)
                 .addTag(Tags.Items.FOODS_VEGETABLE)
                 .addTag(Tags.Items.FOODS_GOLDEN)
+                .addTag(Tags.Items.EGGS)
+                .addTag(Tags.Items.DRINKS_HONEY)
+                .addTag(Tags.Items.SEEDS)
+                .add(ItemIds.MILK_BUCKET)
+                .add(ItemIds.COOKIE)
+                .add(ItemIds.SUGAR)
+                .add(ItemIds.WHEAT)
+                .add(ItemIds.HONEYCOMB)
+                .add(ItemIds.ROTTEN_FLESH)
+                .add(ItemIds.BONE)
+                .add(ItemIds.SPIDER_EYE)
+                .add(ItemIds.FERMENTED_SPIDER_EYE)
+                .add(ItemIds.GHAST_TEAR)
+                .add(ItemIds.INK_SAC)
+                .add(ItemIds.GLOW_INK_SAC)
+                .add(ItemIds.BLAZE_POWDER)
         ;
 
         tag(ModTags.Items.STRENGTH_FOOD)

@@ -1,5 +1,6 @@
 package rydrako.brewnstew.creativemodetab;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -11,6 +12,8 @@ import rydrako.brewnstew.BrewNStew;
 import rydrako.brewnstew.block.ModBlocks;
 import rydrako.brewnstew.item.ModItems;
 
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class ModCreativeModeTabs {
@@ -21,11 +24,12 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModItems.COOKING_POT.get()))
                     .title(Component.translatable("itemGroup.brewnstew"))
-//                    .withTabsBefore(Identifier.fromNamespaceAndPath(BrewNStew.MOD_ID, "brewnstew_ingredients"))
-                    .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModItems.COOKING_POT);
-                        output.accept(ModBlocks.CAMPFIRE_COOKING_POT);
-                    })
+                    .displayItems((itemDisplayParameters, output) ->
+                            BuiltInRegistries.ITEM.entrySet().stream()
+                                    .filter(entry -> Objects.equals(entry.getKey().identifier().getNamespace(), BrewNStew.MOD_ID))
+                                    .map(Map.Entry::getValue)
+                                    .forEach(output::accept)
+                    )
                     .build());
 
     public static final Supplier<CreativeModeTab> BREW_N_STEW_FOOD_TAB = CREATIVE_MODE_TABS.register("brewnstew_food_tab",
