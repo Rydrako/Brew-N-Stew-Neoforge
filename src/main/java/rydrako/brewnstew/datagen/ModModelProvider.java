@@ -21,6 +21,7 @@ public class ModModelProvider extends ModelProvider {
     protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
         itemModels.generateFlatItem(ModItems.COOKING_POT.get(), ModelTemplates.FLAT_ITEM);
 
+        itemModels.generateFlatItem(ModItems.DUBIOUS_FOOD.asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.BEEF_SKEWER.asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.CHICKEN_SKEWER.asItem(), ModelTemplates.FLAT_ITEM);
 

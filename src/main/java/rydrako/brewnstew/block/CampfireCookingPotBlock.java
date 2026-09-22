@@ -36,6 +36,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.extensions.IDispensibleContainerItemExtension;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
 
@@ -46,10 +47,7 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = BlockStateProperties.FACING;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
-    //TODO: FoodStats implementation in BlockEntity
     public static final IntegerProperty FOOD = IntegerProperty.create("food", 0, MAX_FOOD);
-    public static final IntegerProperty STRENGTH = IntegerProperty.create("strength", 0, MAX_FOOD);
-    public static final IntegerProperty NIGHT_VISION = IntegerProperty.create("night_vision", 0, MAX_FOOD);
 
     private static final VoxelShape SHAPE_INSIDE = Block.column((double)12.0F, (double)8.0F, (double)16.0F);
     protected static final VoxelShape SHAPE = Util.make(() ->
@@ -63,8 +61,6 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
                 .setValue(FACING, Direction.WEST)
                 .setValue(LIT, true)
                 .setValue(FOOD, 0)
-                .setValue(STRENGTH, 0)
-                .setValue(NIGHT_VISION, 0)
         );
     }
 
@@ -78,8 +74,6 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
         builder.add(FACING);
         builder.add(LIT);
         builder.add(FOOD);
-        builder.add(STRENGTH);
-        builder.add(NIGHT_VISION);
     }
 
     @Override
@@ -160,20 +154,30 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
             }
             else
             {
-                insertItem(itemStack, state, level, pos, cookingPotBlockEntity);
+                insertItem(player, itemStack, state, level, pos, cookingPotBlockEntity);
             }
         }
 
         return InteractionResult.SUCCESS;
     }
 
-    private static boolean insertItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, CookingPotBlockEntity cookingPotBlockEntity) {
+    private static boolean insertItem(Entity entity, ItemStack itemStack, BlockState state, Level level, BlockPos pos, CookingPotBlockEntity cookingPotBlockEntity) {
         var inv = cookingPotBlockEntity.inventory;
 
         if(!cookingPotBlockEntity.isFull() && inv.isValid(0, ItemResource.of(itemStack)))
         {
             inv.set(cookingPotBlockEntity.getEmptySlot(), ItemResource.of(itemStack), 1);
-            itemStack.shrink(1);
+            var craftingRemainder = itemStack.getCraftingRemainder();
+            if(craftingRemainder != null)
+            {
+                if(entity instanceof Player player)
+                    player.getInventory().setItem(player.getInventory().getSelectedSlot(), craftingRemainder.create());
+                if(entity instanceof ItemEntity itemEntity)
+                    itemEntity.setItem(craftingRemainder.create());
+            }
+            else {
+                itemStack.shrink(1);
+            }
 
             if(!level.isClientSide()) {
                 BlockState newState = state.setValue(FOOD, state.getValue(FOOD) + 1);
@@ -190,7 +194,7 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean isPrecise) {
         if(state.getValue(LIT) && entity instanceof ItemEntity itemEntity)
         {
-            if(insertItem(itemEntity.getItem(), state, level, pos, (CookingPotBlockEntity) level.getBlockEntity(pos)))
+            if(insertItem(itemEntity, itemEntity.getItem(), state, level, pos, (CookingPotBlockEntity) level.getBlockEntity(pos)))
                 effectApplier.runAfter(InsideBlockEffectType.LAVA_IGNITE, Entity::lavaHurt);
         }
     }

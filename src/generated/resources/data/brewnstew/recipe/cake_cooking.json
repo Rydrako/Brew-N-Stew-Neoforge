@@ -1,0 +1,12 @@
+{
+  "type": "brewnstew:cooking",
+  "ingredients": [
+    "minecraft:milk_bucket",
+    "minecraft:sugar",
+    "minecraft:egg",
+    "minecraft:wheat"
+  ],
+  "result": {
+    "id": "minecraft:cake"
+  }
+}

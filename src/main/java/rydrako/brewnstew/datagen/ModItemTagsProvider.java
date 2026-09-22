@@ -47,6 +47,17 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .add(ItemIds.BLAZE_POWDER)
         ;
 
+        tag(ModTags.Items.MONSTER_PARTS)
+                .add(ItemIds.ROTTEN_FLESH)
+                .add(ItemIds.BONE)
+                .add(ItemIds.SPIDER_EYE)
+                .add(ItemIds.FERMENTED_SPIDER_EYE)
+                .add(ItemIds.GHAST_TEAR)
+                .add(ItemIds.INK_SAC)
+                .add(ItemIds.GLOW_INK_SAC)
+                .add(ItemIds.BLAZE_POWDER)
+        ;
+
         tag(ModTags.Items.STRENGTH_FOOD)
                 .add(ItemIds.COD)
         ;

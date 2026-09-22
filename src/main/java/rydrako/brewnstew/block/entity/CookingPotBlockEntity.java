@@ -9,8 +9,10 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
@@ -22,7 +24,12 @@ import rydrako.brewnstew.BrewNStew;
 import rydrako.brewnstew.datacomponent.StatPoint;
 import rydrako.brewnstew.init.ModBlockEntities;
 import rydrako.brewnstew.init.ModItems;
+import rydrako.brewnstew.init.ModRecipes;
+import rydrako.brewnstew.recipe.CookingPotRecipe;
+import rydrako.brewnstew.recipe.CookingPotRecipeInput;
 import rydrako.brewnstew.tags.ModTags;
+
+import java.util.Optional;
 
 public class CookingPotBlockEntity extends BlockEntity {
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(9) {
@@ -85,9 +92,31 @@ public class CookingPotBlockEntity extends BlockEntity {
         return -1;
     }
 
+    private boolean hasRecipe () {
+        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe();
+        if(recipe.isEmpty())
+            return false;
+
+//        ItemStack output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.getResource(0).toStack()));
+
+        return true;
+    }
+
+    private Optional<RecipeHolder<CookingPotRecipe>> getCurrentRecipe() {
+        return ((ServerLevel) level).recipeAccess()
+                .getRecipeFor(ModRecipes.COOKING_TYPE.get(),
+                        new CookingPotRecipeInput(inventory.copyToList()), level);
+    }
+
     public ItemStack createCookedFoodItem (Player player) {
 
-        ItemStack cookedItem = new ItemStack(ModItems.BEEF_SKEWER.get());
+        ItemStack output;
+
+        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe();
+        if(!recipe.isEmpty())
+            output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.copyToList()));
+        else
+            output = new ItemStack(ModItems.BEEF_SKEWER.get());
 
         for(int i = 0; i < inventory.size(); i++)
         {
@@ -99,14 +128,14 @@ public class CookingPotBlockEntity extends BlockEntity {
 
                 if(dataComponent != null)
                 {
-                    cookedItem.update((DataComponentType<StatPoint>)dataComponent,
+                    output.update((DataComponentType<StatPoint>)dataComponent,
                             new StatPoint(0),
                             stat -> stat.addPoints(1));
                 }
             }
         }
 
-        return cookedItem;
+        return output;
     }
 
     @Override

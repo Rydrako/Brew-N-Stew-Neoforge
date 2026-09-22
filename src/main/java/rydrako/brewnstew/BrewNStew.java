@@ -14,12 +14,8 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import rydrako.brewnstew.init.ModBlocks;
-import rydrako.brewnstew.init.ModBlockEntities;
-import rydrako.brewnstew.init.ModCreativeModeTabs;
-import rydrako.brewnstew.init.ModDataComponents;
+import rydrako.brewnstew.init.*;
 import rydrako.brewnstew.food.ModConsumeEffects;
-import rydrako.brewnstew.init.ModItems;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(BrewNStew.MOD_ID)
@@ -38,6 +34,7 @@ public class BrewNStew {
         ModBlockEntities.register(modEventBus);
         ModConsumeEffects.register(modEventBus);
         ModDataComponents.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
