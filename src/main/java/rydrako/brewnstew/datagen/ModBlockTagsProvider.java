@@ -3,7 +3,9 @@ package rydrako.brewnstew.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.references.BlockIds;
+import net.minecraft.references.BlockItemIds;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.BlockItem;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import rydrako.brewnstew.BrewNStew;
 import rydrako.brewnstew.init.ModBlocks;
@@ -25,6 +27,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 .add(ModBlocks.getRK(ModBlocks.CAMPFIRE_COOKING_POT.get()));
 
         tag(ModTags.Blocks.COOKABLE_FOOD)
-                .add(BlockIds.ATTACHED_PUMPKIN_STEM);
+                .add(BlockItemIds.PUMPKIN.block());
     }
 }

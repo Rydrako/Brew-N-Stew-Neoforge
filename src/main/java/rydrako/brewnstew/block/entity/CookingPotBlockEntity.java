@@ -11,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -32,6 +33,9 @@ import rydrako.brewnstew.tags.ModTags;
 import java.util.Optional;
 
 public class CookingPotBlockEntity extends BlockEntity {
+
+    public final Item DEFAULT_FOOD = ModItems.ROCK_HARD_FOOD.get();
+
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(9) {
         @Override
         protected void onContentsChanged(int index, ItemStack previousContents) {
@@ -92,16 +96,6 @@ public class CookingPotBlockEntity extends BlockEntity {
         return -1;
     }
 
-    private boolean hasRecipe () {
-        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe();
-        if(recipe.isEmpty())
-            return false;
-
-//        ItemStack output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.getResource(0).toStack()));
-
-        return true;
-    }
-
     private Optional<RecipeHolder<CookingPotRecipe>> getCurrentRecipe() {
         return ((ServerLevel) level).recipeAccess()
                 .getRecipeFor(ModRecipes.COOKING_TYPE.get(),
@@ -116,7 +110,7 @@ public class CookingPotBlockEntity extends BlockEntity {
         if(!recipe.isEmpty())
             output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.copyToList()));
         else
-            output = new ItemStack(ModItems.BEEF_SKEWER.get());
+            output = new ItemStack(DEFAULT_FOOD);
 
         for(int i = 0; i < inventory.size(); i++)
         {

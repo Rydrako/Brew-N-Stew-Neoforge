@@ -5,6 +5,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.references.ItemIds;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -46,6 +47,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .group("cooking_tools")
                 .save(output);
+
+//        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD, List.of(Ingredient.of(ItemTags.EGGS)), ModItems.BEEF_SKEWER)
+//                .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
+//                .save(output, "brewnstew:beef_skewer_cooking");
 
         CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD, List.of(Ingredient.of(Items.ROTTEN_FLESH)), ModItems.DUBIOUS_FOOD)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))

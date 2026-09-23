@@ -16,6 +16,9 @@ public class ModItems {
     public static final DeferredItem<Item> COOKING_POT = ITEMS.registerItem("cooking_pot",
             properties -> new CookingPotItem(properties.stacksTo(1)));
 
+    public static final DeferredItem<Item> ROCK_HARD_FOOD = ITEMS.registerItem("rock_hard_food",
+            properties -> new CookedFoodItem(properties.food(ModFoods.ROCK_HARD_FOOD, ModFoods.ROCK_HARD_FOOD_CONSUMABLE)));
+
     public static final DeferredItem<Item> DUBIOUS_FOOD = ITEMS.registerItem("dubious_food",
             properties -> new CookedFoodItem(properties.food(ModFoods.BEEF_SKEWER, ModFoods.CUSTOM_DISH_CONSUMABLE)));
 

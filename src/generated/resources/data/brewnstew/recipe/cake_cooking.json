@@ -3,7 +3,7 @@
   "ingredients": [
     "minecraft:milk_bucket",
     "minecraft:sugar",
-    "minecraft:egg",
+    "#minecraft:eggs",
     "minecraft:wheat"
   ],
   "result": {

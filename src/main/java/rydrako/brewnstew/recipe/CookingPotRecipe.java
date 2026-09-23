@@ -32,6 +32,11 @@ public record CookingPotRecipe(List<Ingredient> ingredients, ItemStackTemplate o
         if(level.isClientSide())
             return false;
 
+        for(var ingredient : ingredients)
+        {
+            ingredient.test(input.inputItems().get(0));
+        }
+
         var ing = new java.util.ArrayList<>(ingredients.stream().toList());
 
         int matching = 0;
@@ -41,38 +46,12 @@ public record CookingPotRecipe(List<Ingredient> ingredients, ItemStackTemplate o
             if(!item.isEmpty() && ing.contains(Ingredient.of(item.getItem())))
             {
                 matching++;
-                ing.remove(item.getItem());
+                ing.remove(Ingredient.of(item.getItem()));
             }
         }
 
+        System.out.println("ingredients: " + ing.size());
         return matching == ingredients.size();
-
-//        boolean has = false;
-//
-//        for(var ingredient : ingredients)
-//        {
-//            has = false;
-//            for(var item : input.inputItems())
-//            {
-//                if(Ingredient.of(item.getItem()).equals(ingredient))
-//                    has = true;
-//            }
-//
-//            if(!has)
-//                return false;
-//        }
-//
-//        return true;
-
-//        return input.inputItems().containsAll(ingredients);
-
-//        for (int i = 0; i < input.inputItems().size(); i++)
-//        {
-//            if (!ingredients.get(i).test(input.inputItems().get(Math.max(i, input.inputItems().size() - 1))))
-//                return false;
-//        }
-//
-//        return true;
     }
 
     @Override

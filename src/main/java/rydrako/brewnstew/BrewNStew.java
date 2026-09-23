@@ -1,6 +1,7 @@
 package rydrako.brewnstew;
 
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
