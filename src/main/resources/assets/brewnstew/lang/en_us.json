@@ -5,6 +5,7 @@
 
   "item.brewnstew.dubious_food": "Dubious Food",
   "item.brewnstew.rock_hard_food": "Rock Hard Food",
+  "item.brewnstew.stuffed_pumpkin": "Stuffed Pumpkin",
   "item.brewnstew.beef_skewer": "Beef Skewer",
   "item.brewnstew.chicken_skewer": "Chicken Skewer",
 
@@ -15,6 +16,6 @@
 
   "block.brewnstew.campfire_cooking_pot.empty": "The Cooking Pot is empty.",
   "block.brewnstew.campfire_cooking_pot.use_holder": "Use a Stick or Bowl to finish cooking!",
-  "block.brewnstew.campfire_cooking_pot.use_different_holder": "Use a different item to finish cooking this dish.",
+  "block.brewnstew.campfire_cooking_pot.use_different_holder": "You need a different item to hold this dish.",
   "item.brewnstew.failed_food.tooltip": "§8It does not look appetizing..."
 }

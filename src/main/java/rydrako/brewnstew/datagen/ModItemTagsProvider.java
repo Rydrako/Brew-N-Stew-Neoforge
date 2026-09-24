@@ -3,7 +3,6 @@ package rydrako.brewnstew.datagen;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.references.BlockIds;
 import net.minecraft.references.BlockItemIds;
 import net.minecraft.references.ItemIds;
 import net.minecraft.world.item.Items;
@@ -43,6 +42,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .add(ItemIds.SUGAR)
                 .add(ItemIds.WHEAT)
                 .add(ItemIds.HONEYCOMB)
+                .add(BlockItemIds.PUMPKIN.item())
                 .add(ItemIds.ROTTEN_FLESH)
                 .add(ItemIds.BONE)
                 .add(ItemIds.SPIDER_EYE)
@@ -75,6 +75,10 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
         tag(ModTags.Items.JUMP_BOOST_FOOD)
                 .add(ItemIds.RABBIT)
+        ;
+
+        tag(ModTags.Items.RESISTANCE_FOOD)
+                .add(BlockItemIds.PUMPKIN.item())
         ;
 
         tag(ModTags.Items.WATER_BREATHING_FOOD)

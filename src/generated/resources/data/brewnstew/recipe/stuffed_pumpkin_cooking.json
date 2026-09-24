@@ -1,0 +1,11 @@
+{
+  "type": "brewnstew:cooking",
+  "holderItem": "minecraft:bowl",
+  "ingredients": [
+    "minecraft:pumpkin",
+    "#minecraft:meat"
+  ],
+  "result": {
+    "id": "brewnstew:stuffed_pumpkin"
+  }
+}

@@ -18,16 +18,14 @@ public class ModItems {
             properties -> new CookingPotItem(properties.stacksTo(1)));
 
     public static final DeferredItem<Item> ROCK_HARD_FOOD = ITEMS.registerItem("rock_hard_food",
-            properties -> new FailedFoodItem(properties.food(ModFoods.ROCK_HARD_FOOD, ModFoods.ROCK_HARD_FOOD_CONSUMABLE)));
+            properties -> new FailedFoodItem(properties.food(ModFoods.ROCK_HARD_FOOD, ModFoods.FAILED_FOOD_CONSUMABLE)));
 
     public static final DeferredItem<Item> DUBIOUS_FOOD = ITEMS.registerItem("dubious_food",
-            properties -> new CookedFoodItem(properties.food(ModFoods.BEEF_SKEWER, ModFoods.CUSTOM_DISH_CONSUMABLE)));
+            properties -> new FailedFoodItem(properties.food(ModFoods.DUBIOUS_FOOD, ModFoods.FAILED_FOOD_CONSUMABLE)));
 
-    public static final DeferredItem<Item> BEEF_SKEWER = ITEMS.registerItem("beef_skewer",
-            properties -> new CookedFoodItem(properties.food(ModFoods.BEEF_SKEWER, ModFoods.CUSTOM_DISH_CONSUMABLE)));
+    public static final DeferredItem<Item> STUFFED_PUMPKIN = ITEMS.registerItem("stuffed_pumpkin",
+            properties -> new CookedFoodItem(properties.food(ModFoods.STUFFED_PUMPKIN, ModFoods.COOKED_FOOD_CONSUMABLE)));
 
-    public static final DeferredItem<Item> CHICKEN_SKEWER = ITEMS.registerItem("chicken_skewer",
-            properties -> new CookedFoodItem(properties.food(ModFoods.CHICKEN_SKEWER, ModFoods.CUSTOM_DISH_CONSUMABLE)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -3,17 +3,16 @@ package rydrako.brewnstew.food;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.minecraft.world.level.Level;
 import rydrako.brewnstew.BrewNStew;
 import rydrako.brewnstew.datacomponent.StatPoint;
+import rydrako.brewnstew.init.ModConsumeEffects;
 
 public class CookedFoodConsumeEffect implements ConsumeEffect {
     public static final MapCodec<CookedFoodConsumeEffect> CODEC = MapCodec.unit(CookedFoodConsumeEffect::new);
@@ -39,7 +38,7 @@ public class CookedFoodConsumeEffect implements ConsumeEffect {
                 if(effect.isPresent())
                 {
                     var stat = (StatPoint)dataComponent.value();
-                    livingEntity.addEffect(new MobEffectInstance(effect.get(), 100, stat.points()-1));
+                    livingEntity.addEffect(new MobEffectInstance(effect.get(), 900, stat.points()-1));
                 }
             }
         }

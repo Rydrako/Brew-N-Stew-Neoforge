@@ -1,10 +1,12 @@
-package rydrako.brewnstew.food;
+package rydrako.brewnstew.init;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.consume_effects.ConsumeEffect;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rydrako.brewnstew.BrewNStew;
+import rydrako.brewnstew.food.CookedFoodConsumeEffect;
+import rydrako.brewnstew.food.FailedFoodConsumeEffect;
 
 import java.util.function.Supplier;
 

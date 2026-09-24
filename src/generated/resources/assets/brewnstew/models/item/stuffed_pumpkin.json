@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brewnstew:item/beef_skewer"
+    "layer0": "brewnstew:item/stuffed_pumpkin"
   }
 }

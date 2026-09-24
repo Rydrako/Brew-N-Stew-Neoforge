@@ -1,17 +1,15 @@
 package rydrako.brewnstew.datagen;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.references.ItemIds;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Blocks;
 import rydrako.brewnstew.datagen.recipe.CookingPotRecipeBuilder;
 import rydrako.brewnstew.init.ModItems;
 import rydrako.brewnstew.tags.ModTags;
@@ -67,6 +65,21 @@ public class ModRecipeProvider extends RecipeProvider {
                 ), Ingredient.of(Items.BOWL), Items.CAKE)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:cake_cooking");
+
+        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD,
+                        List.of(Ingredient.of(Blocks.PUMPKIN),
+                                Ingredient.of(Items.SUGAR),
+                                Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.EGGS))
+                        ), Ingredient.of(Items.BOWL), Items.PUMPKIN_PIE)
+                .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
+                .save(output, "brewnstew:pumpkin_pie_cooking");
+
+        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD,
+                        List.of(Ingredient.of(Blocks.PUMPKIN),
+                                Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.MEAT))
+                        ), Ingredient.of(Items.BOWL), ModItems.STUFFED_PUMPKIN)
+                .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
+                .save(output, "brewnstew:stuffed_pumpkin_cooking");
 
     }
 }

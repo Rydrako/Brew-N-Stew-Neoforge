@@ -18,7 +18,10 @@ import net.minecraft.world.entity.InsideBlockEffectType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.FlintAndSteelItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -28,7 +31,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
@@ -36,10 +42,8 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.extensions.IDispensibleContainerItemExtension;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
-import rydrako.brewnstew.init.ModItems;
 import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
@@ -296,9 +300,4 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     public @org.jspecify.annotations.Nullable BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
         return new CookingPotBlockEntity(blockPos, blockState);
     }
-
-//    @Override
-//    public boolean onDestroyedByPlayer(BlockState state, Level level, BlockPos pos, Player player, ItemStack toolStack, boolean willHarvest, FluidState fluid) {
-//        return super.onDestroyedByPlayer(state, level, pos, player, toolStack, willHarvest, fluid);
-//    }
 }

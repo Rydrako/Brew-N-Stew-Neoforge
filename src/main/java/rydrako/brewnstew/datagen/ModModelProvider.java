@@ -23,9 +23,7 @@ public class ModModelProvider extends ModelProvider {
 
         itemModels.generateFlatItem(ModItems.ROCK_HARD_FOOD.asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModItems.DUBIOUS_FOOD.asItem(), ModelTemplates.FLAT_ITEM);
-
-        itemModels.generateFlatItem(ModItems.BEEF_SKEWER.asItem(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModItems.CHICKEN_SKEWER.asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModItems.STUFFED_PUMPKIN.asItem(), ModelTemplates.FLAT_ITEM);
 
         itemModels.generateFlatItem(ModBlocks.CAMPFIRE_COOKING_POT.asItem(), ModelTemplates.FLAT_ITEM);
 //        blockModels.createTrivialCube(ModBlocks.CAMPFIRE_COOKING_POT.asItem())

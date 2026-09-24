@@ -10,7 +10,7 @@ import rydrako.brewnstew.BrewNStew;
 
 public class ModTags {
     public static class Blocks {
-        public static final TagKey<Block> COOKABLE_FOOD =createTag("cookable_food");
+//        public static final TagKey<Block> COOKABLE_FOOD =createTag("cookable_food");
 
         private static TagKey<Block> createTag (String name) {
             return BlockTags.create(Identifier.fromNamespaceAndPath(BrewNStew.MOD_ID, name));
