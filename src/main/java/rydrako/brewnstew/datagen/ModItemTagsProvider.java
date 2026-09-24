@@ -21,6 +21,11 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        tag(ModTags.Items.FOOD_HOLDER)
+                .add(ItemIds.BOWL)
+                .add(ItemIds.STICK)
+        ;
+
         tag(ModTags.Items.COOKABLE_FOOD)
                 .addTag(Tags.Items.FOODS_RAW_MEAT)
                 .addTag(Tags.Items.FOODS_RAW_FISH)
@@ -32,6 +37,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .addTag(Tags.Items.EGGS)
                 .addTag(Tags.Items.DRINKS_HONEY)
                 .addTag(Tags.Items.SEEDS)
+                .addTag(Tags.Items.MUSHROOMS)
                 .add(ItemIds.MILK_BUCKET)
                 .add(ItemIds.COOKIE)
                 .add(ItemIds.SUGAR)
@@ -56,14 +62,23 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .add(ItemIds.INK_SAC)
                 .add(ItemIds.GLOW_INK_SAC)
                 .add(ItemIds.BLAZE_POWDER)
+                .add(ItemIds.RABBIT_FOOT)
+        ;
+
+        tag(ModTags.Items.SPEED_FOOD)
+                .add(ItemIds.SUGAR)
         ;
 
         tag(ModTags.Items.STRENGTH_FOOD)
                 .add(ItemIds.COD)
         ;
 
-        tag(ModTags.Items.SPEED_FOOD)
-                .add(ItemIds.SUGAR)
+        tag(ModTags.Items.JUMP_BOOST_FOOD)
+                .add(ItemIds.RABBIT)
+        ;
+
+        tag(ModTags.Items.WATER_BREATHING_FOOD)
+                .add(ItemIds.PUFFERFISH)
         ;
 
         tag(ModTags.Items.NIGHT_VISION_FOOD)
@@ -75,12 +90,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 .add(ItemIds.CHORUS_FRUIT)
                 ;
 
-        tag(ModTags.Items.WATER_BREATHING_FOOD)
-                .add(ItemIds.PUFFERFISH)
+        tag(ModTags.Items.GLOWING_FOOD)
+                .add(ItemIds.GLOW_INK_SAC)
                 ;
 
-        tag(ModTags.Items.JUMP_BOOST_FOOD)
-                .add(ItemIds.RABBIT)
-                ;
     }
 }

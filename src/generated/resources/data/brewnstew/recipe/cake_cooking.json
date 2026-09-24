@@ -1,5 +1,6 @@
 {
   "type": "brewnstew:cooking",
+  "holderItem": "minecraft:bowl",
   "ingredients": [
     "minecraft:milk_bucket",
     "minecraft:sugar",

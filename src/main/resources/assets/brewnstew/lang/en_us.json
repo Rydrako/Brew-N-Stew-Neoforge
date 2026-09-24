@@ -11,7 +11,10 @@
   "block.brewnstew.cooking_pot": "Cooking Pot",
   "block.brewnstew.campfire_cooking_pot": "Campfire Cooking Pot",
   "itemGroup.brewnstew.food": "Brew N' Stew Food",
-  "tooltip.brewnstew.cooking_pot": "§8Place on a campfire to get cooking!",
+  "tooltip.brewnstew.cooking_pot": "§7Place on a campfire to get cooking!",
 
-  "block.brewnstew.campfire_cooking_pot.empty": "The Cooking Pot is empty."
+  "block.brewnstew.campfire_cooking_pot.empty": "The Cooking Pot is empty.",
+  "block.brewnstew.campfire_cooking_pot.use_holder": "Use a Stick or Bowl to finish cooking!",
+  "block.brewnstew.campfire_cooking_pot.use_different_holder": "Use a different item to finish cooking this dish.",
+  "item.brewnstew.failed_food.tooltip": "§8It does not look appetizing..."
 }

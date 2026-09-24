@@ -1,6 +1,8 @@
 package rydrako.brewnstew.datagen;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -12,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import rydrako.brewnstew.datagen.recipe.CookingPotRecipeBuilder;
 import rydrako.brewnstew.init.ModItems;
+import rydrako.brewnstew.tags.ModTags;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -48,20 +51,20 @@ public class ModRecipeProvider extends RecipeProvider {
                 .group("cooking_tools")
                 .save(output);
 
-//        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD, List.of(Ingredient.of(ItemTags.EGGS)), ModItems.BEEF_SKEWER)
-//                .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
-//                .save(output, "brewnstew:beef_skewer_cooking");
-
-        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD, List.of(Ingredient.of(Items.ROTTEN_FLESH)), ModItems.DUBIOUS_FOOD)
+        CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD,
+                        List.of(Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ModTags.Items.MONSTER_PARTS))),
+                        Ingredient.of(Items.BOWL),
+                        ModItems.DUBIOUS_FOOD)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:dubious_food_cooking");
+
 
         CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD,
                 List.of(Ingredient.of(Items.MILK_BUCKET),
                         Ingredient.of(Items.SUGAR),
-                        Ingredient.of(Items.EGG),
+                        Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.EGGS)),
                         Ingredient.of(Items.WHEAT)
-                ), Items.CAKE)
+                ), Ingredient.of(Items.BOWL), Items.CAKE)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:cake_cooking");
 

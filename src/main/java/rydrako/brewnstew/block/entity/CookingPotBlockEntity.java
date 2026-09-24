@@ -10,7 +10,6 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -35,6 +34,12 @@ import java.util.Optional;
 public class CookingPotBlockEntity extends BlockEntity {
 
     public final Item DEFAULT_FOOD = ModItems.ROCK_HARD_FOOD.get();
+    public enum RecipeStatus
+    {
+        Invalid,
+        InvalidHolder,
+        Valid
+    }
 
     public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(9) {
         @Override
@@ -96,19 +101,37 @@ public class CookingPotBlockEntity extends BlockEntity {
         return -1;
     }
 
-    private Optional<RecipeHolder<CookingPotRecipe>> getCurrentRecipe() {
+    private Optional<RecipeHolder<CookingPotRecipe>> getCurrentRecipe(ItemStack inputItem) {
         return ((ServerLevel) level).recipeAccess()
                 .getRecipeFor(ModRecipes.COOKING_TYPE.get(),
-                        new CookingPotRecipeInput(inventory.copyToList()), level);
+                        new CookingPotRecipeInput(inventory.copyToList(), inputItem), level);
     }
 
-    public ItemStack createCookedFoodItem (Player player) {
+    public RecipeStatus hasValidRecipe (ItemStack inputItem) {
+        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe(inputItem);
+        if(!recipe.isEmpty())
+        {
+            if(recipe.get().value().holderMatches(inputItem))
+            {
+                return RecipeStatus.Valid;
+            }
+            else {
+                return RecipeStatus.InvalidHolder;
+            }
+        }
+        else
+        {
+            return RecipeStatus.Invalid;
+        }
+    }
+
+    public ItemStack createCookedFoodItem (ItemStack inputItem) {
 
         ItemStack output;
 
-        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe();
+        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe(inputItem);
         if(!recipe.isEmpty())
-            output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.copyToList()));
+            output = recipe.get().value().assemble(new CookingPotRecipeInput(inventory.copyToList(), inputItem));
         else
             output = new ItemStack(DEFAULT_FOOD);
 

@@ -5,10 +5,10 @@ import net.minecraft.world.item.crafting.RecipeInput;
 
 import java.util.List;
 
-public record CookingPotRecipeInput(List<ItemStack> inputItems) implements RecipeInput {
+public record CookingPotRecipeInput(List<ItemStack> inputIngredients, ItemStack holderItem) implements RecipeInput {
     @Override
     public ItemStack getItem(int i) {
-        return inputItems.get(i);
+        return inputIngredients.get(i);
     }
 
     @Override

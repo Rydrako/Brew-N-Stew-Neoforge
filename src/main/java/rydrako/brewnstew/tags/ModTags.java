@@ -18,6 +18,7 @@ public class ModTags {
     }
 
     public static class Items {
+        public static final TagKey<Item> FOOD_HOLDER =createTag("food_holder");
         public static final TagKey<Item> COOKABLE_FOOD =createTag("cookable_food");
         public static final TagKey<Item> MONSTER_PARTS =createTag("monster_parts");
         public static final TagKey<Item> SPEED_FOOD = createTag("speed_food");

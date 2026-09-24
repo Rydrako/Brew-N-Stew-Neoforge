@@ -22,21 +22,18 @@ public class CookedFoodConsumeEffect implements ConsumeEffect {
 
     @Override
     public Type<? extends ConsumeEffect> getType() {
-        return ModConsumeEffects.CUSTOM_CONSUME_EFFECT.get();
+        return ModConsumeEffects.COOKED_FOOD_CONSUME_EFFECT.get();
     }
 
     @Override
     public boolean apply(Level level, ItemStack itemStack, LivingEntity livingEntity) {
-        if(!level.isClientSide() && livingEntity instanceof Player player) {
-
+        if(!level.isClientSide()) {
             for(var dataComponent : itemStack.getComponents().stream()
                     .filter(data -> data.type().toString().startsWith(BrewNStew.MOD_ID))
                     .toList())
             {
+                //TODO: support for custom effects
                 String path = dataComponent.type().toString().replace(BrewNStew.MOD_ID + ":", "");
-//                var effect = CookedConsumableEffects.EFFECT_REGISTRY.getValue(Identifier.fromNamespaceAndPath(BrewNStew.MOD_ID,
-//                        path));
-
                 var effect = BuiltInRegistries.MOB_EFFECT.get(Identifier.fromNamespaceAndPath("minecraft",path));
 
                 if(effect.isPresent())
@@ -44,20 +41,8 @@ public class CookedFoodConsumeEffect implements ConsumeEffect {
                     var stat = (StatPoint)dataComponent.value();
                     livingEntity.addEffect(new MobEffectInstance(effect.get(), 100, stat.points()-1));
                 }
-//
-//                if(effect != null)
-//                {
-//                    var stat = itemStack.get((DataComponentType<StatPoint>)dataComponent.value());
-////                    effect.getEffect(stat.points());
-//
-//                }
-
-                player.sendSystemMessage(Component.literal(path));
             }
-
-
         }
         return true;
     }
-
 }

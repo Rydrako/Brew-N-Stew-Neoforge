@@ -1,7 +1,8 @@
 {
   "type": "brewnstew:cooking",
+  "holderItem": "minecraft:bowl",
   "ingredients": [
-    "minecraft:rotten_flesh"
+    "#brewnstew:monster_parts"
   ],
   "result": {
     "id": "brewnstew:dubious_food"

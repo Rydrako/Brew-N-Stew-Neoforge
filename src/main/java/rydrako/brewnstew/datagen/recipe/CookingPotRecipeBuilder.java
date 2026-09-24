@@ -18,18 +18,20 @@ import java.util.List;
 public class CookingPotRecipeBuilder implements RecipeBuilder {
     private final RecipeCategory category;
     private final ItemStackTemplate result;
-    private final List<Ingredient> ingredient;
+    private final List<Ingredient> ingredients;
+    private final Ingredient holderItem;
     private final RecipeUnlockAdvancementBuilder advancementBuilder = new RecipeUnlockAdvancementBuilder();
     private @Nullable String group;
 
-    private CookingPotRecipeBuilder (RecipeCategory category, List<Ingredient> ingredient, ItemStackTemplate result) {
+    private CookingPotRecipeBuilder (RecipeCategory category, List<Ingredient> ingredients, Ingredient holderItem, ItemStackTemplate result) {
         this.category = category;
         this.result = result;
-        this.ingredient = ingredient;
+        this.ingredients = ingredients;
+        this.holderItem = holderItem;
     }
 
-    public static CookingPotRecipeBuilder cookingPotRecipe (RecipeCategory category, List<Ingredient> ingredients, ItemLike result) {
-        return new CookingPotRecipeBuilder(category, ingredients, new ItemStackTemplate(result.asItem()));
+    public static CookingPotRecipeBuilder cookingPotRecipe (RecipeCategory category, List<Ingredient> ingredients, Ingredient holderItem, ItemLike result) {
+        return new CookingPotRecipeBuilder(category, ingredients, holderItem, new ItemStackTemplate(result.asItem()));
     }
 
     @Override
@@ -51,7 +53,7 @@ public class CookingPotRecipeBuilder implements RecipeBuilder {
 
     @Override
     public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
-        CookingPotRecipe recipe = new CookingPotRecipe(this.ingredient, this.result);
+        CookingPotRecipe recipe = new CookingPotRecipe(this.ingredients, this.holderItem, this.result);
         recipeOutput.accept(id, recipe, this.advancementBuilder.build(recipeOutput, id, this.category));
     }
 }

@@ -13,13 +13,15 @@ import rydrako.brewnstew.init.ModRecipes;
 
 import java.util.List;
 
-public record CookingPotRecipe(List<Ingredient> ingredients, ItemStackTemplate output) implements Recipe<CookingPotRecipeInput> {
+public record CookingPotRecipe(List<Ingredient> ingredients, Ingredient holderItem, ItemStackTemplate output) implements Recipe<CookingPotRecipeInput> {
     public static final MapCodec<CookingPotRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(CookingPotRecipe::getIngredients),
+            Ingredient.CODEC.fieldOf("holderItem").forGetter(CookingPotRecipe::holderItem),
             ItemStackTemplate.CODEC.fieldOf("result").forGetter(CookingPotRecipe::output)
     ).apply(inst, CookingPotRecipe::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, CookingPotRecipe> STREAM_CODEC =
             StreamCodec.composite(Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), CookingPotRecipe::ingredients,
+                    Ingredient.CONTENTS_STREAM_CODEC, CookingPotRecipe::holderItem,
                     ItemStackTemplate.STREAM_CODEC, CookingPotRecipe::output,
                     CookingPotRecipe::new);
 
@@ -32,26 +34,25 @@ public record CookingPotRecipe(List<Ingredient> ingredients, ItemStackTemplate o
         if(level.isClientSide())
             return false;
 
+        int sum = 0;
+
         for(var ingredient : ingredients)
         {
-            ingredient.test(input.inputItems().get(0));
-        }
-
-        var ing = new java.util.ArrayList<>(ingredients.stream().toList());
-
-        int matching = 0;
-
-        for(var item : input.inputItems())
-        {
-            if(!item.isEmpty() && ing.contains(Ingredient.of(item.getItem())))
+            for(var item : input.inputIngredients())
             {
-                matching++;
-                ing.remove(Ingredient.of(item.getItem()));
+                if(ingredient.test(item))
+                {
+                    sum++;
+                    break;
+                }
             }
         }
 
-        System.out.println("ingredients: " + ing.size());
-        return matching == ingredients.size();
+        return sum == ingredients.size();
+    }
+
+    public boolean holderMatches (ItemStack input){
+        return holderItem != null && holderItem.test(input);
     }
 
     @Override

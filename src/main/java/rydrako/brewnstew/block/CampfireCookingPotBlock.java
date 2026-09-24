@@ -39,6 +39,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.extensions.IDispensibleContainerItemExtension;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import rydrako.brewnstew.block.entity.CookingPotBlockEntity;
+import rydrako.brewnstew.init.ModItems;
+import rydrako.brewnstew.tags.ModTags;
 
 import javax.annotation.Nullable;
 
@@ -132,33 +134,54 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 
         if(!level.isClientSide() && level.getBlockEntity(pos) instanceof  CookingPotBlockEntity cookingPotBlockEntity)
         {
-            if(itemStack.isEmpty() && player.isCrouching())
+            if(itemStack.is(ModTags.Items.COOKABLE_FOOD))
             {
-                if(cookingPotBlockEntity.hasContents())
-                {
-                    BlockState newState = state.setValue(FOOD, 0);
-                    level.setBlockAndUpdate(pos, newState);
+                insertItem(player, itemStack, state, level, pos, cookingPotBlockEntity);
+                return InteractionResult.SUCCESS;
+            }
 
-                    ItemStack cookedItem = cookingPotBlockEntity.createCookedFoodItem(player);
-                    cookingPotBlockEntity.clearContents();
-                    if(!player.getInventory().add(cookedItem)) {
-                        player.drop(cookedItem, false);
-                    }
-                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
-                    level.playSound(null, pos, SoundEvents.GENERIC_BURN, SoundSource.BLOCKS, 1f, 2f);
-                }
-                else
+            if(cookingPotBlockEntity.hasContents())
+            {
+                if(itemStack.isEmpty())
                 {
-                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.empty"));
+                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_holder"));
+                }
+                else if(itemStack.is(ModTags.Items.FOOD_HOLDER))
+                {
+                    if(cookingPotBlockEntity.hasValidRecipe(itemStack) == CookingPotBlockEntity.RecipeStatus.InvalidHolder)
+                    {
+                        player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_different_holder"));
+                    }
+                    else
+                    {
+                        givePlayerCookedItem(itemStack, state, level, pos, player, cookingPotBlockEntity);
+                    }
                 }
             }
             else
             {
-                insertItem(player, itemStack, state, level, pos, cookingPotBlockEntity);
+                if(!itemStack.is(ModTags.Items.FOOD_HOLDER))
+                {
+                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.empty"));
+                    return InteractionResult.SUCCESS;
+                }
             }
         }
 
         return InteractionResult.SUCCESS;
+    }
+
+    private static void givePlayerCookedItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, CookingPotBlockEntity cookingPotBlockEntity) {
+        BlockState newState = state.setValue(FOOD, 0);
+        level.setBlockAndUpdate(pos, newState);
+
+        ItemStack cookedItem = cookingPotBlockEntity.createCookedFoodItem(itemStack);
+        cookingPotBlockEntity.clearContents();
+        if(!player.getInventory().add(cookedItem)) {
+            player.drop(cookedItem, false);
+        }
+        level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1f, 2f);
+        level.playSound(null, pos, SoundEvents.GENERIC_BURN, SoundSource.BLOCKS, 1f, 2f);
     }
 
     private static boolean insertItem(Entity entity, ItemStack itemStack, BlockState state, Level level, BlockPos pos, CookingPotBlockEntity cookingPotBlockEntity) {
