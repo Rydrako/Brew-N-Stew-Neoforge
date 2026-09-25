@@ -146,29 +146,26 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 
             if(cookingPotBlockEntity.hasContents())
             {
+                if(cookingPotBlockEntity.isValidHolderItem(itemStack))
+                {
+                    givePlayerCookedItem(itemStack, state, level, pos, player, cookingPotBlockEntity);
+                    return InteractionResult.SUCCESS;
+                }
+                else if(cookingPotBlockEntity.hasValidRecipe())
+                {
+                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_different_holder", cookingPotBlockEntity.getHolderItemNameForCurrentRecipe().getString()));
+                    return InteractionResult.SUCCESS;
+                }
+
                 if(itemStack.isEmpty())
                 {
                     player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_holder"));
-                }
-                else if(itemStack.is(ModTags.Items.FOOD_HOLDER))
-                {
-                    if(cookingPotBlockEntity.hasValidRecipe(itemStack) == CookingPotBlockEntity.RecipeStatus.InvalidHolder)
-                    {
-                        player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_different_holder"));
-                    }
-                    else
-                    {
-                        givePlayerCookedItem(itemStack, state, level, pos, player, cookingPotBlockEntity);
-                    }
+
                 }
             }
             else
             {
-                if(!itemStack.is(ModTags.Items.FOOD_HOLDER))
-                {
-                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.empty"));
-                    return InteractionResult.SUCCESS;
-                }
+                player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.empty"));
             }
         }
 
