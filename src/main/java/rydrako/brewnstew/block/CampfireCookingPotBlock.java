@@ -159,8 +159,7 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
 
                 if(itemStack.isEmpty())
                 {
-                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_holder"));
-
+                    player.sendOverlayMessage(Component.translatable("block.brewnstew.campfire_cooking_pot.use_bowl"));
                 }
             }
             else
@@ -175,6 +174,13 @@ public class CampfireCookingPotBlock extends BaseEntityBlock {
     private static void givePlayerCookedItem(ItemStack itemStack, BlockState state, Level level, BlockPos pos, Player player, CookingPotBlockEntity cookingPotBlockEntity) {
         BlockState newState = state.setValue(FOOD, 0);
         level.setBlockAndUpdate(pos, newState);
+
+        int itemsConsumed = 1;
+        if(cookingPotBlockEntity.hasValidRecipe())
+            itemsConsumed = cookingPotBlockEntity.getRecipeHoldersConsumed(itemStack);
+
+        if(itemsConsumed > 0)
+            itemStack.shrink(itemsConsumed);
 
         ItemStack cookedItem = cookingPotBlockEntity.createCookedFoodItem(itemStack);
         cookingPotBlockEntity.clearContents();

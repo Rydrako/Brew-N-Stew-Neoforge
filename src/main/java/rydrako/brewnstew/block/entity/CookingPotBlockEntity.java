@@ -121,6 +121,11 @@ public class CookingPotBlockEntity extends BlockEntity {
         return holderItem.is(ModTags.Items.FOOD_HOLDER);
     }
 
+    public int getRecipeHoldersConsumed (ItemStack holderItem) {
+        Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe(holderItem);
+        return recipe.get().value().holdersConsumed();
+    }
+
     public Component getHolderItemNameForCurrentRecipe () {
         Optional<RecipeHolder<CookingPotRecipe>> recipe = getCurrentRecipe(null);
         if(recipe.isEmpty() || recipe.get().value().holderItem() == null)

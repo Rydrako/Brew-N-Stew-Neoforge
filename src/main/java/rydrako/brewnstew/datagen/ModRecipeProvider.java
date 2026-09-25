@@ -62,7 +62,7 @@ public class ModRecipeProvider extends RecipeProvider {
                         Ingredient.of(Items.SUGAR),
                         Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.EGGS)),
                         Ingredient.of(Items.WHEAT)
-                ), Ingredient.of(Items.BOWL), Items.CAKE)
+                ), Items.CAKE)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:cake_cooking");
 
@@ -70,14 +70,14 @@ public class ModRecipeProvider extends RecipeProvider {
                         List.of(Ingredient.of(Blocks.PUMPKIN),
                                 Ingredient.of(Items.SUGAR),
                                 Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.EGGS))
-                        ), Ingredient.of(Items.BOWL), Items.PUMPKIN_PIE)
+                        ), Items.PUMPKIN_PIE)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:pumpkin_pie_cooking");
 
         CookingPotRecipeBuilder.cookingPotRecipe(RecipeCategory.FOOD,
                         List.of(Ingredient.of(Blocks.PUMPKIN),
                                 Ingredient.of(registries.lookupOrThrow(Registries.ITEM).getOrThrow(ItemTags.MEAT))
-                        ), Ingredient.of(Items.BOWL), ModItems.STUFFED_PUMPKIN)
+                        ), ModItems.STUFFED_PUMPKIN)
                 .unlockedBy("has_cooking_pot", has(ModItems.COOKING_POT))
                 .save(output, "brewnstew:stuffed_pumpkin_cooking");
 

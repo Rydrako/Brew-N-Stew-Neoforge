@@ -1,5 +1,6 @@
 package rydrako.brewnstew.recipe;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -13,15 +14,17 @@ import rydrako.brewnstew.init.ModRecipes;
 
 import java.util.List;
 
-public record CookingPotRecipe(List<Ingredient> ingredients, Ingredient holderItem, ItemStackTemplate output) implements Recipe<CookingPotRecipeInput> {
+public record CookingPotRecipe(List<Ingredient> ingredients, Ingredient holderItem, int holdersConsumed, ItemStackTemplate output) implements Recipe<CookingPotRecipeInput> {
     public static final MapCodec<CookingPotRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
             Ingredient.CODEC.listOf().fieldOf("ingredients").forGetter(CookingPotRecipe::getIngredients),
             Ingredient.CODEC.fieldOf("holderItem").forGetter(CookingPotRecipe::holderItem),
+            Codec.INT.fieldOf("holdersConsumed").forGetter(CookingPotRecipe::holdersConsumed),
             ItemStackTemplate.CODEC.fieldOf("result").forGetter(CookingPotRecipe::output)
     ).apply(inst, CookingPotRecipe::new));
     public static final StreamCodec<RegistryFriendlyByteBuf, CookingPotRecipe> STREAM_CODEC =
             StreamCodec.composite(Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), CookingPotRecipe::ingredients,
                     Ingredient.CONTENTS_STREAM_CODEC, CookingPotRecipe::holderItem,
+                    ByteBufCodecs.INT, CookingPotRecipe::holdersConsumed,
                     ItemStackTemplate.STREAM_CODEC, CookingPotRecipe::output,
                     CookingPotRecipe::new);
 

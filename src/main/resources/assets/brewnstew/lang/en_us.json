@@ -15,7 +15,7 @@
   "tooltip.brewnstew.cooking_pot": "§7Place on a campfire to get cooking!",
 
   "block.brewnstew.campfire_cooking_pot.empty": "The Cooking Pot is empty.",
-  "block.brewnstew.campfire_cooking_pot.use_holder": "Use a Stick or Bowl to finish cooking!",
-  "block.brewnstew.campfire_cooking_pot.use_different_holder": "Use %s to cook this dish.",
+  "block.brewnstew.campfire_cooking_pot.use_bowl": "Use a Bowl to finish cooking!",
+  "block.brewnstew.campfire_cooking_pot.use_different_holder": "Use a %s to cook this dish.",
   "item.brewnstew.failed_food.tooltip": "§8It does not look appetizing..."
 }
